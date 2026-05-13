@@ -1498,7 +1498,7 @@ ${linkProducto(producto)}`;
 
     const archivos = [];
 
-    for (let i = 0; i < Math.min(producto.fotos.length, 4); i++) {
+    for (let i = 0; i < producto.fotos.length; i++) {
       try {
         const respuesta = await fetch(producto.fotos[i], { cache: "no-store" });
         const blob = await respuesta.blob();
@@ -1728,22 +1728,27 @@ ${linkProducto(producto)}`;
     cerrarCompartir();
 
     try {
-      if (navigator.share) {
-        const archivoPublicacion = await crearArchivoPublicacion(producto);
+      const archivos = await obtenerFotosComoArchivos(producto);
 
-        if (navigator.canShare && navigator.canShare({ files: [archivoPublicacion] })) {
-          await navigator.share({
-            title: producto.titulo,
-            text: texto,
-            files: [archivoPublicacion]
-          });
-        } else {
-          await navigator.share({
-            title: producto.titulo,
-            text: texto,
-            url: linkProducto(producto)
-          });
+      if (navigator.share && archivos.length) {
+        try {
+          await navigator.clipboard.writeText(texto);
+        } catch (e) {
+          console.warn("No se pudo copiar la información automáticamente.", e);
         }
+
+        alert("Se compartirán todas las fotos del producto. La información completa ya quedó copiada para que la pegues una sola vez.");
+
+        await navigator.share({
+          title: producto.titulo,
+          files: archivos
+        });
+      } else if (navigator.share) {
+        await navigator.share({
+          title: producto.titulo,
+          text: texto,
+          url: linkProducto(producto)
+        });
       } else {
         await copiarTexto(texto);
       }
