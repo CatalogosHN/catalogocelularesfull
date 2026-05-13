@@ -897,6 +897,124 @@
       }
     }
 
+
+    /* =========================================================
+       FIX X FIJA + MODAL SIN MOVIMIENTO DE FONDO
+       - La X siempre queda arriba a la derecha.
+       - El fondo no se mueve cuando el cliente mira fotos/información.
+       - Evita rebote/arrastre horizontal en móvil.
+       ========================================================= */
+
+    body.modal-open {
+      overflow: hidden !important;
+      width: 100%;
+      touch-action: none;
+    }
+
+    body.modal-open-lock {
+      position: fixed;
+      left: 0;
+      right: 0;
+      width: 100%;
+      overflow: hidden !important;
+    }
+
+    .modal {
+      height: 100dvh;
+      max-height: 100dvh;
+      overflow: hidden !important;
+      overscroll-behavior: contain;
+      touch-action: none;
+    }
+
+    .modal-box {
+      overscroll-behavior: contain;
+    }
+
+    .modal-gallery,
+    .main-photo,
+    .thumbs,
+    .modal-info {
+      overscroll-behavior: contain;
+    }
+
+    .modal-info,
+    .thumbs {
+      touch-action: pan-y;
+    }
+
+    .thumbs {
+      touch-action: pan-x;
+    }
+
+    .close {
+      position: fixed !important;
+      top: max(12px, env(safe-area-inset-top)) !important;
+      right: max(12px, env(safe-area-inset-right)) !important;
+      width: 42px !important;
+      height: 42px !important;
+      border-radius: 50% !important;
+      background: rgba(243,244,246,.96) !important;
+      color: #111827 !important;
+      font-size: 24px !important;
+      display: grid !important;
+      place-items: center !important;
+      z-index: 9999 !important;
+      box-shadow: 0 8px 24px rgba(0,0,0,.22) !important;
+      border: 1px solid rgba(0,0,0,.08) !important;
+      padding: 0 !important;
+    }
+
+    .modal-share-btn {
+      position: fixed !important;
+      top: max(12px, env(safe-area-inset-top)) !important;
+      right: calc(max(12px, env(safe-area-inset-right)) + 50px) !important;
+      z-index: 9998 !important;
+      box-shadow: 0 8px 24px rgba(0,0,0,.15) !important;
+    }
+
+    @media (max-width: 760px) {
+      .modal {
+        inset: 0;
+        width: 100vw;
+        height: 100dvh;
+        max-height: 100dvh;
+      }
+
+      .modal-box {
+        width: 100vw !important;
+        max-width: 100vw !important;
+        height: 100dvh !important;
+        max-height: 100dvh !important;
+        border-radius: 0 !important;
+        overflow: hidden !important;
+      }
+
+      .modal-gallery {
+        flex-shrink: 0;
+      }
+
+      .modal-info {
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        touch-action: pan-y;
+      }
+
+      .modal-info h2 {
+        padding-right: 90px !important;
+      }
+
+      .close {
+        top: calc(env(safe-area-inset-top) + 10px) !important;
+        right: calc(env(safe-area-inset-right) + 10px) !important;
+      }
+
+      .modal-share-btn {
+        top: calc(env(safe-area-inset-top) + 10px) !important;
+        right: calc(env(safe-area-inset-right) + 60px) !important;
+      }
+    }
+
   </style>
 </head>
 
@@ -1197,6 +1315,7 @@
   let productoActual = null;
   let fotoActual = 0;
   let productoParaCompartir = null;
+  let scrollBloqueadoModal = 0;
 
   function renderProductos(lista) {
     listaActual = lista;
@@ -1248,8 +1367,12 @@
     productoActual = listaActual[index];
     fotoActual = fotoIndex;
 
+    scrollBloqueadoModal = window.scrollY || document.documentElement.scrollTop || 0;
+
     document.getElementById("modal").classList.add("active");
     document.body.classList.add("modal-open");
+    document.body.classList.add("modal-open-lock");
+    document.body.style.top = `-${scrollBloqueadoModal}px`;
 
     actualizarModal();
   }
@@ -1293,6 +1416,9 @@
   function cerrarModal() {
     document.getElementById("modal").classList.remove("active");
     document.body.classList.remove("modal-open");
+    document.body.classList.remove("modal-open-lock");
+    document.body.style.top = "";
+    window.scrollTo(0, scrollBloqueadoModal || 0);
   }
 
   function fotoSiguiente() {
