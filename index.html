@@ -754,6 +754,149 @@
         border-radius: 20px;
       }
     }
+
+    /* =========================================================
+       FIX MOVIL FINAL - NO BORRAR
+       Corrige el modal en celular, elimina desplazamiento horizontal
+       y evita que WhatsApp tape la información del producto.
+       ========================================================= */
+
+    html, body {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+
+    .modal-box,
+    .modal-gallery,
+    .modal-info,
+    .main-photo,
+    .thumbs {
+      min-width: 0;
+    }
+
+    @media (max-width: 760px) {
+      .modal {
+        padding: 0;
+        align-items: stretch;
+        justify-content: stretch;
+        overflow: hidden;
+      }
+
+      .modal-box {
+        width: 100vw;
+        max-width: 100vw;
+        height: 100dvh;
+        max-height: 100dvh;
+        border-radius: 0;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
+        overflow: hidden;
+      }
+
+      .modal-gallery {
+        height: 46dvh;
+        min-height: 0;
+        padding: 10px;
+        flex: none;
+      }
+
+      .main-photo {
+        height: calc(46dvh - 76px);
+        min-height: 0;
+      }
+
+      .main-photo img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+
+      .photo-arrow {
+        width: 42px;
+        height: 42px;
+      }
+
+      .photo-arrow.left {
+        left: 10px;
+      }
+
+      .photo-arrow.right {
+        right: 10px;
+      }
+
+      .thumbs {
+        max-width: 100%;
+        gap: 7px;
+        padding: 2px 0 4px;
+        overflow-x: auto;
+        overflow-y: hidden;
+      }
+
+      .thumbs img {
+        width: 66px;
+        height: 58px;
+        flex: 0 0 auto;
+      }
+
+      .modal-info {
+        height: auto;
+        min-height: 0;
+        max-height: none;
+        overflow-y: auto;
+        padding: 20px 16px 34px;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .modal-info h2 {
+        font-size: 25px;
+        line-height: 1.18;
+        margin-top: 6px;
+        padding-right: 82px;
+        overflow-wrap: break-word;
+      }
+
+      .modal-price {
+        font-size: 31px;
+      }
+
+      .details {
+        gap: 8px;
+      }
+
+      .details li {
+        font-size: 15px;
+        padding: 12px;
+      }
+
+      body.modal-open .floating-wa {
+        display: none;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .modal-gallery {
+        height: 43dvh;
+      }
+
+      .main-photo {
+        height: calc(43dvh - 76px);
+      }
+
+      .modal-info h2 {
+        font-size: 23px;
+      }
+
+      .modal-price {
+        font-size: 29px;
+      }
+
+      .thumbs img {
+        width: 58px;
+        height: 50px;
+      }
+    }
+
   </style>
 </head>
 
