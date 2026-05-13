@@ -1524,6 +1524,201 @@ ${linkProducto(producto)}`;
     return [];
   }
 
+
+  /*
+    CREA UNA SOLA IMAGEN DE PUBLICACION.
+    Así al compartir no manda:
+    foto 1 + info
+    foto 2 + info
+    foto 3 + info
+
+    Ahora manda UNA sola publicación con:
+    varias fotos + una información completa.
+  */
+  function cargarImagenCanvas(src) {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.crossOrigin = "anonymous";
+      img.onload = () => resolve(img);
+      img.onerror = () => resolve(null);
+      img.src = src;
+    });
+  }
+
+  function rectRedondo(ctx, x, y, w, h, r) {
+    const radio = Math.min(r, w / 2, h / 2);
+    ctx.beginPath();
+    ctx.moveTo(x + radio, y);
+    ctx.arcTo(x + w, y, x + w, y + h, radio);
+    ctx.arcTo(x + w, y + h, x, y + h, radio);
+    ctx.arcTo(x, y + h, x, y, radio);
+    ctx.arcTo(x, y, x + w, y, radio);
+    ctx.closePath();
+  }
+
+  function dibujarImagenContain(ctx, img, x, y, w, h) {
+    if (!img) {
+      ctx.fillStyle = "#111827";
+      rectRedondo(ctx, x, y, w, h, 22);
+      ctx.fill();
+      ctx.fillStyle = "#ffffff";
+      ctx.font = "700 30px Arial";
+      ctx.textAlign = "center";
+      ctx.fillText("Foto no disponible", x + w / 2, y + h / 2);
+      ctx.textAlign = "left";
+      return;
+    }
+
+    const escala = Math.min(w / img.width, h / img.height);
+    const nw = img.width * escala;
+    const nh = img.height * escala;
+    const nx = x + (w - nw) / 2;
+    const ny = y + (h - nh) / 2;
+
+    ctx.save();
+    rectRedondo(ctx, x, y, w, h, 22);
+    ctx.clip();
+    ctx.fillStyle = "#111827";
+    ctx.fillRect(x, y, w, h);
+    ctx.drawImage(img, nx, ny, nw, nh);
+    ctx.restore();
+  }
+
+  function lineasTexto(ctx, texto, maxWidth) {
+    const palabras = String(texto).split(" ");
+    const lineas = [];
+    let linea = "";
+
+    palabras.forEach((palabra) => {
+      const prueba = linea ? linea + " " + palabra : palabra;
+      if (ctx.measureText(prueba).width > maxWidth && linea) {
+        lineas.push(linea);
+        linea = palabra;
+      } else {
+        linea = prueba;
+      }
+    });
+
+    if (linea) lineas.push(linea);
+    return lineas;
+  }
+
+  function dibujarTextoWrap(ctx, texto, x, y, maxWidth, lineHeight) {
+    const lineas = lineasTexto(ctx, texto, maxWidth);
+    lineas.forEach((linea, i) => {
+      ctx.fillText(linea, x, y + i * lineHeight);
+    });
+    return lineas.length * lineHeight;
+  }
+
+  async function crearArchivoPublicacion(producto) {
+    const ancho = 1080;
+    const margen = 58;
+    const fotos = producto.fotos.slice(0, 4);
+    const imagenes = await Promise.all(fotos.map(cargarImagenCanvas));
+
+    const detalles = producto.detalles || [];
+    const altoBase = 980;
+    const altoDetalles = Math.max(260, detalles.length * 58);
+    const alto = Math.min(2200, altoBase + altoDetalles);
+
+    const canvas = document.createElement("canvas");
+    canvas.width = ancho;
+    canvas.height = alto;
+
+    const ctx = canvas.getContext("2d");
+
+    ctx.fillStyle = "#f5f6f8";
+    ctx.fillRect(0, 0, ancho, alto);
+
+    // Tarjeta principal
+    ctx.fillStyle = "#ffffff";
+    rectRedondo(ctx, 34, 34, ancho - 68, alto - 68, 34);
+    ctx.fill();
+    ctx.strokeStyle = "#e5e7eb";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // Encabezado
+    ctx.fillStyle = "#111827";
+    ctx.font = "900 46px Arial";
+    const titleH = dibujarTextoWrap(ctx, producto.titulo, margen, 104, ancho - margen * 2, 54);
+
+    ctx.fillStyle = "#111827";
+    ctx.font = "900 58px Arial";
+    ctx.fillText(producto.precio, margen, 122 + titleH);
+
+    ctx.fillStyle = "#dcfce7";
+    rectRedondo(ctx, margen, 156 + titleH, 190, 54, 27);
+    ctx.fill();
+    ctx.fillStyle = "#15803d";
+    ctx.font = "900 26px Arial";
+    ctx.fillText(producto.estado || "Disponible", margen + 26, 191 + titleH);
+
+    // Fotos
+    let yFotos = 238 + titleH;
+    const gap = 18;
+    const cajaW = (ancho - margen * 2 - gap) / 2;
+    const cajaH = 300;
+
+    if (imagenes.length === 1) {
+      dibujarImagenContain(ctx, imagenes[0], margen, yFotos, ancho - margen * 2, 470);
+      yFotos += 500;
+    } else {
+      imagenes.forEach((img, i) => {
+        const col = i % 2;
+        const row = Math.floor(i / 2);
+        const x = margen + col * (cajaW + gap);
+        const y = yFotos + row * (cajaH + gap);
+        dibujarImagenContain(ctx, img, x, y, cajaW, cajaH);
+      });
+      yFotos += imagenes.length <= 2 ? cajaH + 36 : cajaH * 2 + gap + 36;
+    }
+
+    // Título de información
+    ctx.fillStyle = "#374151";
+    ctx.font = "900 30px Arial";
+    ctx.fillText("INFORMACIÓN DEL EQUIPO", margen, yFotos);
+
+    let y = yFotos + 48;
+
+    detalles.forEach((detalle) => {
+      ctx.fillStyle = "#f9fafb";
+      rectRedondo(ctx, margen, y - 34, ancho - margen * 2, 48, 18);
+      ctx.fill();
+      ctx.strokeStyle = "#e5e7eb";
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+
+      ctx.fillStyle = "#16a34a";
+      ctx.beginPath();
+      ctx.arc(margen + 24, y - 10, 8, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = "#111827";
+      ctx.font = "500 28px Arial";
+      const extra = dibujarTextoWrap(ctx, detalle, margen + 52, y, ancho - margen * 2 - 70, 34);
+      y += Math.max(58, extra + 16);
+    });
+
+    // Pie
+    ctx.fillStyle = "#6b7280";
+    ctx.font = "700 24px Arial";
+    ctx.fillText("Consulta disponibilidad por WhatsApp", margen, alto - 92);
+
+    ctx.fillStyle = "#16a34a";
+    ctx.font = "900 28px Arial";
+    ctx.fillText("WhatsApp: +" + telefonoWhatsApp, margen, alto - 54);
+
+    const blob = await new Promise((resolve) => {
+      canvas.toBlob(resolve, "image/png", 0.95);
+    });
+
+    return new File([blob], `${idProducto(producto)}-publicacion.png`, {
+      type: "image/png"
+    });
+  }
+
   async function compartirPublicacion() {
     if (!productoParaCompartir) return;
 
@@ -1534,13 +1729,13 @@ ${linkProducto(producto)}`;
 
     try {
       if (navigator.share) {
-        const archivos = await obtenerFotosComoArchivos(producto);
+        const archivoPublicacion = await crearArchivoPublicacion(producto);
 
-        if (archivos.length) {
+        if (navigator.canShare && navigator.canShare({ files: [archivoPublicacion] })) {
           await navigator.share({
             title: producto.titulo,
             text: texto,
-            files: archivos
+            files: [archivoPublicacion]
           });
         } else {
           await navigator.share({
@@ -1553,7 +1748,7 @@ ${linkProducto(producto)}`;
         await copiarTexto(texto);
       }
     } catch (e) {
-      console.warn("Compartir cancelado o no permitido.");
+      console.warn("Compartir cancelado o no permitido.", e);
     }
   }
 
