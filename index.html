@@ -1,0 +1,1352 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Catálogo de Celulares</title>
+
+  <style>
+    :root {
+      --bg: #f5f6f8;
+      --card: #ffffff;
+      --text: #111827;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --primary: #111827;
+      --primary-soft: #f3f4f6;
+      --success: #16a34a;
+      --whatsapp: #25D366;
+      --shadow: 0 10px 30px rgba(0,0,0,.07);
+      --radius: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    body.modal-open {
+      overflow: hidden;
+    }
+
+    header {
+      background: #ffffff;
+      border-bottom: 1px solid var(--border);
+      padding: 20px 16px;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+
+    .header-inner {
+      max-width: 1150px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 24px;
+      letter-spacing: -0.5px;
+    }
+
+    .brand p {
+      margin: 5px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .search-box {
+      flex: 1;
+      max-width: 380px;
+      min-width: 220px;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 13px 15px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      font-size: 15px;
+      outline: none;
+      background: #fafafa;
+    }
+
+    .search-box input:focus {
+      border-color: #9ca3af;
+      background: #ffffff;
+    }
+
+    main {
+      max-width: 1150px;
+      margin: auto;
+      padding: 24px 14px 92px;
+    }
+
+    .catalogo {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: .2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+    }
+
+    .photo-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      background: #f1f1f1;
+      cursor: pointer;
+      overflow: hidden;
+    }
+
+    .photo-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: .25s ease;
+    }
+
+    .photo-wrap:hover img {
+      transform: scale(1.04);
+    }
+
+    .badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: rgba(255,255,255,.94);
+      color: var(--success);
+      padding: 7px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: bold;
+      border: 1px solid rgba(0,0,0,.06);
+    }
+
+    .photo-count {
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      background: rgba(17,24,39,.88);
+      color: #fff;
+      padding: 7px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .share-float-card {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.94);
+      border: 1px solid rgba(0,0,0,.08);
+      display: grid;
+      place-items: center;
+      padding: 0;
+      z-index: 5;
+      box-shadow: 0 8px 20px rgba(0,0,0,.16);
+    }
+
+    .share-float-card svg {
+      width: 19px;
+      height: 19px;
+      stroke: #111827;
+    }
+
+    .share-float-card:hover {
+      background: white;
+      transform: scale(1.04);
+    }
+
+    .content {
+      padding: 16px;
+    }
+
+    .title {
+      margin: 0;
+      font-size: 17px;
+      line-height: 1.3;
+    }
+
+    .price {
+      margin: 9px 0 4px;
+      font-size: 22px;
+      font-weight: 900;
+    }
+
+    .small-info {
+      color: var(--muted);
+      font-size: 13px;
+      margin: 0 0 14px;
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    button, .btn {
+      border: none;
+      border-radius: 13px;
+      padding: 12px 10px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      transition: .2s ease;
+      font-family: inherit;
+    }
+
+    .btn-dark {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .btn-dark:hover {
+      opacity: .9;
+    }
+
+    .btn-light {
+      background: var(--primary-soft);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-light:hover {
+      background: #e5e7eb;
+    }
+
+    .empty {
+      display: none;
+      text-align: center;
+      color: var(--muted);
+      margin-top: 35px;
+      font-size: 16px;
+    }
+
+    /* MODAL */
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.72);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 14px;
+      z-index: 100;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-box {
+      background: #fff;
+      width: min(100%, 980px);
+      height: min(92vh, 760px);
+      border-radius: 22px;
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      box-shadow: 0 20px 70px rgba(0,0,0,.35);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .modal-gallery {
+      background: #111827;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-height: 0;
+    }
+
+    .main-photo {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border-radius: 16px;
+      background: #000;
+      position: relative;
+    }
+
+    .main-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .photo-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.92);
+      color: #111827;
+      font-size: 24px;
+      font-weight: 900;
+      display: grid;
+      place-items: center;
+      box-shadow: 0 8px 20px rgba(0,0,0,.25);
+      z-index: 4;
+      padding: 0;
+    }
+
+    .photo-arrow.left {
+      left: 12px;
+    }
+
+    .photo-arrow.right {
+      right: 12px;
+    }
+
+    .photo-arrow:hover {
+      background: white;
+    }
+
+    .thumbs {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+    }
+
+    .thumbs img {
+      width: 72px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 10px;
+      cursor: pointer;
+      opacity: .60;
+      border: 2px solid transparent;
+      flex: 0 0 auto;
+    }
+
+    .thumbs img.active {
+      opacity: 1;
+      border-color: #fff;
+    }
+
+    .modal-info {
+      position: relative;
+      height: 100%;
+      overflow-y: auto;
+      padding: 24px 18px 24px 24px;
+      background: #fff;
+      scrollbar-width: thin;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .modal-info::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .modal-info::-webkit-scrollbar-thumb {
+      background: #d1d5db;
+      border-radius: 999px;
+    }
+
+    .close {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: #f3f4f6;
+      color: #111827;
+      font-size: 22px;
+      display: grid;
+      place-items: center;
+      z-index: 6;
+      padding: 0;
+    }
+
+    .modal-share-btn {
+      position: absolute;
+      top: 12px;
+      right: 58px;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: #f3f4f6;
+      border: 1px solid #e5e7eb;
+      display: grid;
+      place-items: center;
+      padding: 0;
+      z-index: 6;
+    }
+
+    .modal-share-btn svg {
+      width: 19px;
+      height: 19px;
+      stroke: #111827;
+    }
+
+    .modal-info h2 {
+      margin: 20px 0 8px;
+      font-size: 24px;
+      line-height: 1.2;
+      padding-right: 82px;
+    }
+
+    .modal-price {
+      font-size: 29px;
+      font-weight: 900;
+      margin: 0 0 10px;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #ecfdf5;
+      color: #15803d;
+      border: 1px solid #bbf7d0;
+      padding: 8px 11px;
+      border-radius: 999px;
+      font-weight: 800;
+      font-size: 13px;
+      margin-bottom: 16px;
+    }
+
+    .info-title {
+      font-size: 14px;
+      color: #374151;
+      font-weight: 900;
+      margin: 8px 0 10px;
+      text-transform: uppercase;
+      letter-spacing: .4px;
+    }
+
+    .details {
+      margin: 0 0 20px;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 9px;
+    }
+
+    .details li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      background: #f9fafb;
+      border: 1px solid var(--border);
+      padding: 11px 12px;
+      border-radius: 13px;
+      font-size: 15px;
+      line-height: 1.35;
+    }
+
+    .details li::before {
+      content: "•";
+      color: #16a34a;
+      font-size: 26px;
+      line-height: 17px;
+      font-weight: 900;
+      flex: 0 0 auto;
+      margin-top: 1px;
+    }
+
+    .contact {
+      display: grid;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .whatsapp {
+      background: var(--whatsapp);
+      color: #fff;
+    }
+
+    .note {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 12px;
+      line-height: 1.4;
+    }
+
+    /* BOTON FLOTANTE WHATSAPP */
+    .floating-wa {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 250;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 10px;
+    }
+
+    .wa-bubble {
+      position: relative;
+      max-width: 260px;
+      background: #ffffff;
+      color: #111827;
+      border: 1px solid #e5e7eb;
+      border-radius: 18px;
+      padding: 12px 14px;
+      font-size: 13px;
+      line-height: 1.35;
+      box-shadow: 0 14px 35px rgba(0,0,0,.12);
+      font-weight: 700;
+    }
+
+    .wa-bubble::after {
+      content: "";
+      position: absolute;
+      right: 18px;
+      bottom: -10px;
+      width: 18px;
+      height: 18px;
+      background: #fff;
+      border-right: 1px solid #e5e7eb;
+      border-bottom: 1px solid #e5e7eb;
+      transform: rotate(45deg);
+    }
+
+    .wa-btn {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: var(--whatsapp);
+      display: grid;
+      place-items: center;
+      box-shadow: 0 14px 30px rgba(37,211,102,.35);
+      text-decoration: none;
+      border: 5px solid rgba(255,255,255,.92);
+    }
+
+    .wa-btn svg {
+      width: 31px;
+      height: 31px;
+      fill: white;
+    }
+
+    .wa-btn:hover {
+      transform: scale(1.04);
+    }
+
+    /* MENU DE COMPARTIR */
+    .share-sheet {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.45);
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+      padding: 16px;
+      z-index: 400;
+    }
+
+    .share-sheet.active {
+      display: flex;
+    }
+
+    .share-card {
+      width: min(100%, 420px);
+      background: #fff;
+      border-radius: 22px;
+      padding: 18px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.28);
+      animation: subirShare .18s ease-out;
+    }
+
+    @keyframes subirShare {
+      from {
+        transform: translateY(18px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .share-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .share-head h3 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .share-close {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      padding: 0;
+      background: #f3f4f6;
+      color: #111827;
+      font-size: 20px;
+    }
+
+    .share-option {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      color: #111827;
+      padding: 14px;
+      border-radius: 15px;
+      margin-top: 10px;
+      text-align: left;
+    }
+
+    .share-option:hover {
+      background: #f3f4f6;
+    }
+
+    .share-option-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: #111827;
+      color: #fff;
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      font-size: 18px;
+    }
+
+    .share-option-text strong {
+      display: block;
+      font-size: 15px;
+      margin-bottom: 3px;
+    }
+
+    .share-option-text span {
+      display: block;
+      color: #6b7280;
+      font-size: 13px;
+      line-height: 1.3;
+    }
+
+    @media (max-width: 800px) {
+      .modal-box {
+        grid-template-columns: 1fr;
+        height: min(94vh, 900px);
+      }
+
+      .modal-gallery {
+        min-height: 300px;
+      }
+
+      .modal-info {
+        min-height: 260px;
+        max-height: 42vh;
+      }
+
+      .modal-info h2 {
+        margin-top: 5px;
+      }
+
+      .photo-arrow {
+        width: 42px;
+        height: 42px;
+      }
+    }
+
+    @media (max-width: 520px) {
+      header {
+        position: static;
+      }
+
+      .brand h1 {
+        font-size: 21px;
+      }
+
+      main {
+        padding: 18px 10px 110px;
+      }
+
+      .catalogo {
+        grid-template-columns: 1fr;
+      }
+
+      .actions {
+        grid-template-columns: 1fr;
+      }
+
+      .modal {
+        padding: 8px;
+      }
+
+      .modal-box {
+        border-radius: 18px;
+      }
+
+      .thumbs img {
+        width: 64px;
+        height: 54px;
+      }
+
+      .floating-wa {
+        right: 12px;
+        bottom: 12px;
+      }
+
+      .wa-bubble {
+        max-width: 220px;
+        font-size: 12px;
+        padding: 10px 12px;
+      }
+
+      .wa-btn {
+        width: 58px;
+        height: 58px;
+      }
+
+      .wa-btn svg {
+        width: 28px;
+        height: 28px;
+      }
+
+      .share-sheet {
+        padding: 10px;
+      }
+
+      .share-card {
+        border-radius: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="brand">
+      <h1>Catálogo de Celulares</h1>
+      <p>Equipos disponibles · Fotos reales · Información clara</p>
+    </div>
+
+    <div class="search-box">
+      <input type="text" id="buscar" placeholder="Buscar modelo, almacenamiento, color..." />
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="catalogo" id="catalogo"></section>
+  <div class="empty" id="empty">No se encontraron productos.</div>
+</main>
+
+<!-- MODAL PRODUCTO -->
+<div class="modal" id="modal">
+  <div class="modal-box">
+
+    <div class="modal-gallery">
+      <div class="main-photo">
+        <button class="photo-arrow left" onclick="fotoAnterior()">‹</button>
+        <img id="modalImg" src="" alt="Foto del producto">
+        <button class="photo-arrow right" onclick="fotoSiguiente()">›</button>
+      </div>
+
+      <div class="thumbs" id="thumbs"></div>
+    </div>
+
+    <div class="modal-info">
+      <button class="close" onclick="cerrarModal()">×</button>
+
+      <button class="modal-share-btn" onclick="abrirCompartirProductoActual()" title="Compartir">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/>
+          <path d="M16 6l-4-4-4 4"/>
+          <path d="M12 2v14"/>
+        </svg>
+      </button>
+
+      <h2 id="modalTitulo"></h2>
+      <p class="modal-price" id="modalPrecio"></p>
+      <div class="status">Disponible</div>
+
+      <div class="info-title">Información del equipo</div>
+      <ul class="details" id="modalDetalles"></ul>
+
+      <div class="contact">
+        <a class="btn whatsapp" id="btnWhatsapp" target="_blank">Consultar por WhatsApp</a>
+      </div>
+
+      <p class="note">
+        La disponibilidad puede cambiar. Para apartar un equipo, consulta directamente por WhatsApp.
+      </p>
+    </div>
+
+  </div>
+</div>
+
+<!-- WHATSAPP FLOTANTE -->
+<div class="floating-wa">
+  <div class="wa-bubble">
+    Si tienes dudas, contactar con agente en WhatsApp
+  </div>
+
+  <a class="wa-btn" id="floatingWhatsapp" target="_blank" title="Contactar por WhatsApp">
+    <svg viewBox="0 0 32 32">
+      <path d="M19.11 17.46c-.28-.14-1.65-.81-1.91-.9-.26-.1-.45-.14-.64.14-.19.28-.73.9-.9 1.08-.17.19-.33.21-.61.07-.28-.14-1.18-.44-2.25-1.4-.83-.74-1.39-1.65-1.55-1.93-.16-.28-.02-.43.12-.57.13-.13.28-.33.42-.49.14-.16.19-.28.28-.47.09-.19.05-.35-.02-.49-.07-.14-.64-1.54-.88-2.11-.23-.56-.47-.48-.64-.49h-.55c-.19 0-.49.07-.75.35-.26.28-.98.96-.98 2.34s1.01 2.71 1.15 2.9c.14.19 1.99 3.04 4.82 4.26.67.29 1.2.46 1.61.59.68.22 1.29.19 1.78.12.54-.08 1.65-.67 1.88-1.32.23-.65.23-1.2.16-1.32-.07-.12-.26-.19-.54-.33z"/>
+      <path d="M16.02 3C8.84 3 3 8.84 3 16.02c0 2.3.6 4.54 1.75 6.52L3 29l6.62-1.73a13 13 0 0 0 6.4 1.63C23.2 28.9 29 23.08 29 15.9 29 8.84 23.2 3 16.02 3zm0 23.68c-2.03 0-4.02-.54-5.77-1.56l-.41-.24-3.93 1.03 1.05-3.83-.27-.43a10.72 10.72 0 0 1-1.47-5.63c0-5.95 4.84-10.79 10.8-10.79 2.88 0 5.59 1.12 7.62 3.16a10.7 10.7 0 0 1 3.15 7.51c0 5.95-4.83 10.78-10.77 10.78z"/>
+    </svg>
+  </a>
+</div>
+
+<!-- MENU COMPARTIR -->
+<div class="share-sheet" id="shareSheet">
+  <div class="share-card">
+    <div class="share-head">
+      <h3>Compartir producto</h3>
+      <button class="share-close" onclick="cerrarCompartir()">×</button>
+    </div>
+
+    <button class="share-option" onclick="compartirPublicacion()">
+      <div class="share-option-icon">📲</div>
+      <div class="share-option-text">
+        <strong>Compartir publicación</strong>
+        <span>Comparte información del celular, link y fotos si el dispositivo lo permite.</span>
+      </div>
+    </button>
+
+    <button class="share-option" onclick="compartirLink()">
+      <div class="share-option-icon">🔗</div>
+      <div class="share-option-text">
+        <strong>Link de publicación</strong>
+        <span>Comparte el enlace directo para abrir este producto.</span>
+      </div>
+    </button>
+  </div>
+</div>
+
+<script>
+  /*
+    CAMBIA ESTE NUMERO POR TU WHATSAPP.
+    Formato Honduras:
+    504 + número
+    Ejemplo: 50496310102
+  */
+  const telefonoWhatsApp = "50496310102";
+
+  const linkAgente = `https://wa.me/${telefonoWhatsApp}?text=${encodeURIComponent("Hola, tengo dudas y quiero contactar con un agente para consultar por celulares disponibles.")}`;
+  document.getElementById("floatingWhatsapp").href = linkAgente;
+
+  /*
+    AQUI EDITAS TUS CELULARES.
+    Cada producto puede tener todas las fotos que quieras.
+    Las fotos deben estar dentro de la carpeta img/
+  */
+  const productos = [
+    {
+      id: "iphone-14-pro-max-256gb",
+      titulo: "iPhone 14 Pro Max 256GB 100% Batería Todas Las Redes",
+      precio: "L.14,000",
+      estado: "Disponible",
+      fotos: [
+        "img/iphone14promax-1.jpg",
+        "img/iphone14promax-2.jpg",
+        "img/iphone14promax-3.jpg"
+      ],
+      detalles: [
+        "256 GB de almacenamiento",
+        "100% batería",
+        "Desbloqueado para todas las redes",
+        "Cámaras funcionando correctamente",
+        "Audio y micrófono funcionando",
+        "Equipo listo para usar"
+      ]
+    },
+    {
+      id: "iphone-14-pro-128gb",
+      titulo: "iPhone 14 Pro 128GB 88% Batería",
+      precio: "L.9,000",
+      estado: "Disponible",
+      fotos: [
+        "img/iphone14pro-1.jpg",
+        "img/iphone14pro-2.jpg",
+        "img/iphone14pro-3.jpg"
+      ],
+      detalles: [
+        "128 GB de almacenamiento",
+        "88% batería",
+        "Equipo desbloqueado",
+        "Pantalla en buen estado",
+        "Cámaras funcionando correctamente",
+        "Audio y micrófono funcionando"
+      ]
+    },
+    {
+      id: "iphone-8-plus-negro-256gb",
+      titulo: "iPhone 8 Plus 256GB 100% Batería Todas Las Redes",
+      precio: "L.4,000",
+      estado: "Disponible",
+      fotos: [
+        "img/iphone8plus-negro-1.jpg",
+        "img/iphone8plus-negro-2.jpg",
+        "img/iphone8plus-negro-3.jpg",
+        "img/iphone8plus-negro-4.jpg"
+      ],
+      detalles: [
+        "Modelo M",
+        "256 GB",
+        "100% batería",
+        "Vidrio de Pantalla",
+        "Cobertor Original de Segunda Mano",
+        "Negro color",
+        "Chip Desbloqueado para cualquier red y funciona en cualquier País",
+        "True Tone",
+        "Huella",
+        "Cámara",
+        "Audio y Micrófono"
+      ]
+    },
+    {
+      id: "iphone-8-plus-rojo-256gb",
+      titulo: "iPhone 8 Plus 256GB 100% Batería Todas Las Redes",
+      precio: "L.4,000",
+      estado: "Disponible",
+      fotos: [
+        "img/iphone8plus-rojo-1.jpg",
+        "img/iphone8plus-rojo-2.jpg",
+        "img/iphone8plus-rojo-3.jpg"
+      ],
+      detalles: [
+        "256 GB de almacenamiento",
+        "100% batería",
+        "Desbloqueado para todas las redes",
+        "Pantalla funcionando correctamente",
+        "Cámara funcionando",
+        "Huella funcionando",
+        "Audio y micrófono funcionando"
+      ]
+    },
+    {
+      id: "iphone-8-plus-caja-256gb",
+      titulo: "iPhone 8 Plus De Caja 100% Bat 256GB",
+      precio: "L.5,000",
+      estado: "Disponible",
+      fotos: [
+        "img/iphone8plus-caja-1.jpg",
+        "img/iphone8plus-caja-2.jpg",
+        "img/iphone8plus-caja-3.jpg",
+        "img/iphone8plus-caja-4.jpg"
+      ],
+      detalles: [
+        "256 GB de almacenamiento",
+        "100% batería",
+        "Incluye caja",
+        "Equipo desbloqueado",
+        "Pantalla funcionando correctamente",
+        "Cámara funcionando",
+        "Huella funcionando",
+        "Audio y micrófono funcionando"
+      ]
+    },
+    {
+      id: "nokia-g11-plus-64gb",
+      titulo: "Nokia G11 Plus 64GB",
+      precio: "L.1,400",
+      estado: "Disponible",
+      fotos: [
+        "img/nokia-g11-plus-1.jpg",
+        "img/nokia-g11-plus-2.jpg",
+        "img/nokia-g11-plus-3.jpg"
+      ],
+      detalles: [
+        "64 GB de almacenamiento",
+        "Buen estado general",
+        "Pantalla funcionando",
+        "Cámara funcionando",
+        "Audio y micrófono funcionando",
+        "Listo para usar"
+      ]
+    },
+    {
+      id: "iphone-16-pro-max-256gb",
+      titulo: "iPhone 16 Pro Max 256GB 97% BAT Todas Las Redes",
+      precio: "L.21,000",
+      estado: "Disponible",
+      fotos: [
+        "img/iphone16promax-1.png",
+        "img/iphone16promax-2.png",
+        "img/iphone16promax-3.png",
+        "img/iphone16promax-4.png",
+	"img/iphone16promax-5.png",
+	"img/iphone16promax-6.png",
+	"img/iphone16promax-7.png",
+	"img/iphone16promax-8.png",
+	"img/iphone16promax-9.png"
+      ],
+      detalles: [
+        "256 GB almacenamiento",
+        "97% batería",
+        "Desbloqueado para todas las redes",
+        "Pantalla en buen estado",
+        "Cámaras funcionando correctamente",
+        "Audio y micrófono funcionando",
+        "Equipo listo para usar"
+      ]
+    }
+  ];
+
+  const catalogo = document.getElementById("catalogo");
+  const buscar = document.getElementById("buscar");
+  const empty = document.getElementById("empty");
+
+  let listaActual = productos;
+  let productoActual = null;
+  let fotoActual = 0;
+  let productoParaCompartir = null;
+
+  function renderProductos(lista) {
+    listaActual = lista;
+    catalogo.innerHTML = "";
+
+    if (lista.length === 0) {
+      empty.style.display = "block";
+      return;
+    }
+
+    empty.style.display = "none";
+
+    lista.forEach((producto, index) => {
+      const card = document.createElement("article");
+      card.className = "card";
+
+      card.innerHTML = `
+        <div class="photo-wrap" onclick="abrirModal(${index}, 0)">
+          <button class="share-float-card" onclick="event.stopPropagation(); abrirCompartir(${index})" title="Compartir">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/>
+              <path d="M16 6l-4-4-4 4"/>
+              <path d="M12 2v14"/>
+            </svg>
+          </button>
+
+          <img src="${producto.fotos[0]}" alt="${producto.titulo}" onerror="this.src='https://via.placeholder.com/600x450?text=Foto+del+Producto'">
+          <div class="badge">${producto.estado}</div>
+          <div class="photo-count">${producto.fotos.length} fotos</div>
+        </div>
+
+        <div class="content">
+          <h2 class="title">${producto.titulo}</h2>
+          <p class="price">${producto.precio}</p>
+          <p class="small-info">Toca la imagen o usa el botón para ver más</p>
+
+          <div class="actions">
+            <button class="btn-dark" onclick="abrirModal(${index}, 0)">Ver fotos</button>
+            <button class="btn-light" onclick="abrirModal(${index}, 0)">Ver información</button>
+          </div>
+        </div>
+      `;
+
+      catalogo.appendChild(card);
+    });
+  }
+
+  function abrirModal(index, fotoIndex) {
+    productoActual = listaActual[index];
+    fotoActual = fotoIndex;
+
+    document.getElementById("modal").classList.add("active");
+    document.body.classList.add("modal-open");
+
+    actualizarModal();
+  }
+
+  function actualizarModal() {
+    if (!productoActual) return;
+
+    document.getElementById("modalTitulo").textContent = productoActual.titulo;
+    document.getElementById("modalPrecio").textContent = productoActual.precio;
+
+    const img = document.getElementById("modalImg");
+    img.src = productoActual.fotos[fotoActual];
+    img.onerror = function() {
+      this.src = "https://via.placeholder.com/900x650?text=Foto+del+Producto";
+    };
+
+    const detalles = document.getElementById("modalDetalles");
+    detalles.innerHTML = productoActual.detalles.map(item => `<li>${item}</li>`).join("");
+
+    const mensaje = encodeURIComponent(`Hola, me interesa este producto: ${productoActual.titulo} - ${productoActual.precio}`);
+    document.getElementById("btnWhatsapp").href = `https://wa.me/${telefonoWhatsApp}?text=${mensaje}`;
+
+    const thumbs = document.getElementById("thumbs");
+    thumbs.innerHTML = "";
+
+    productoActual.fotos.forEach((foto, i) => {
+      const thumb = document.createElement("img");
+      thumb.src = foto;
+      thumb.className = i === fotoActual ? "active" : "";
+      thumb.onerror = function() {
+        this.src = "https://via.placeholder.com/160x120?text=Foto";
+      };
+      thumb.onclick = () => {
+        fotoActual = i;
+        actualizarModal();
+      };
+      thumbs.appendChild(thumb);
+    });
+  }
+
+  function cerrarModal() {
+    document.getElementById("modal").classList.remove("active");
+    document.body.classList.remove("modal-open");
+  }
+
+  function fotoSiguiente() {
+    if (!productoActual) return;
+    fotoActual = (fotoActual + 1) % productoActual.fotos.length;
+    actualizarModal();
+  }
+
+  function fotoAnterior() {
+    if (!productoActual) return;
+    fotoActual = (fotoActual - 1 + productoActual.fotos.length) % productoActual.fotos.length;
+    actualizarModal();
+  }
+
+  function idProducto(producto) {
+    if (producto.id) return producto.id;
+
+    const base = producto.titulo
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "");
+
+    const index = productos.indexOf(producto);
+    return `${base}-${index}`;
+  }
+
+  function linkProducto(producto) {
+    const url = new URL(window.location.href);
+    url.searchParams.set("producto", idProducto(producto));
+    return url.toString();
+  }
+
+  function textoProducto(producto) {
+    return `${producto.titulo}
+${producto.precio}
+
+${producto.detalles.map(d => "• " + d).join("\n")}
+
+Ver publicación:
+${linkProducto(producto)}`;
+  }
+
+  function abrirCompartir(index) {
+    productoParaCompartir = listaActual[index];
+    document.getElementById("shareSheet").classList.add("active");
+  }
+
+  function abrirCompartirProductoActual() {
+    if (!productoActual) return;
+    productoParaCompartir = productoActual;
+    document.getElementById("shareSheet").classList.add("active");
+  }
+
+  function cerrarCompartir() {
+    document.getElementById("shareSheet").classList.remove("active");
+  }
+
+  async function copiarTexto(texto) {
+    try {
+      await navigator.clipboard.writeText(texto);
+      alert("Copiado correctamente.");
+    } catch {
+      const temp = document.createElement("textarea");
+      temp.value = texto;
+      document.body.appendChild(temp);
+      temp.select();
+      document.execCommand("copy");
+      temp.remove();
+      alert("Copiado correctamente.");
+    }
+  }
+
+  async function obtenerFotosComoArchivos(producto) {
+    if (!navigator.canShare || !window.File) return [];
+
+    const archivos = [];
+
+    for (let i = 0; i < Math.min(producto.fotos.length, 4); i++) {
+      try {
+        const respuesta = await fetch(producto.fotos[i], { cache: "no-store" });
+        const blob = await respuesta.blob();
+
+        if (!blob.type.startsWith("image/")) continue;
+
+        const extension = blob.type.includes("png") ? "png" : "jpg";
+
+        archivos.push(
+          new File([blob], `${idProducto(producto)}-${i + 1}.${extension}`, {
+            type: blob.type
+          })
+        );
+      } catch (e) {
+        console.warn("No se pudo cargar una foto para compartir:", producto.fotos[i]);
+      }
+    }
+
+    if (archivos.length && navigator.canShare({ files: archivos })) {
+      return archivos;
+    }
+
+    return [];
+  }
+
+  async function compartirPublicacion() {
+    if (!productoParaCompartir) return;
+
+    const producto = productoParaCompartir;
+    const texto = textoProducto(producto);
+
+    cerrarCompartir();
+
+    try {
+      if (navigator.share) {
+        const archivos = await obtenerFotosComoArchivos(producto);
+
+        if (archivos.length) {
+          await navigator.share({
+            title: producto.titulo,
+            text: texto,
+            files: archivos
+          });
+        } else {
+          await navigator.share({
+            title: producto.titulo,
+            text: texto,
+            url: linkProducto(producto)
+          });
+        }
+      } else {
+        await copiarTexto(texto);
+      }
+    } catch (e) {
+      console.warn("Compartir cancelado o no permitido.");
+    }
+  }
+
+  async function compartirLink() {
+    if (!productoParaCompartir) return;
+
+    const producto = productoParaCompartir;
+    const link = linkProducto(producto);
+
+    cerrarCompartir();
+
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: producto.titulo,
+          text: `Mira este celular: ${producto.titulo} - ${producto.precio}`,
+          url: link
+        });
+      } else {
+        await copiarTexto(link);
+      }
+    } catch (e) {
+      console.warn("Compartir cancelado o no permitido.");
+    }
+  }
+
+  function abrirProductoDesdeLink() {
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("producto");
+
+    if (!id) return;
+
+    const index = productos.findIndex(p => idProducto(p) === id);
+
+    if (index >= 0) {
+      setTimeout(() => {
+        abrirModal(index, 0);
+      }, 300);
+    }
+  }
+
+  buscar.addEventListener("input", () => {
+    const texto = buscar.value.toLowerCase().trim();
+
+    const filtrados = productos.filter(p =>
+      p.titulo.toLowerCase().includes(texto) ||
+      p.precio.toLowerCase().includes(texto) ||
+      p.estado.toLowerCase().includes(texto) ||
+      p.detalles.join(" ").toLowerCase().includes(texto)
+    );
+
+    renderProductos(filtrados);
+  });
+
+  document.getElementById("modal").addEventListener("click", function(e) {
+    if (e.target === this) cerrarModal();
+  });
+
+  document.getElementById("shareSheet").addEventListener("click", function(e) {
+    if (e.target === this) cerrarCompartir();
+  });
+
+  document.addEventListener("keydown", function(e) {
+    if (e.key === "Escape") {
+      cerrarCompartir();
+      cerrarModal();
+    }
+
+    if (document.getElementById("modal").classList.contains("active")) {
+      if (e.key === "ArrowRight") fotoSiguiente();
+      if (e.key === "ArrowLeft") fotoAnterior();
+    }
+  });
+
+  renderProductos(productos);
+  abrirProductoDesdeLink();
+</script>
+
+</body>
+</html>
