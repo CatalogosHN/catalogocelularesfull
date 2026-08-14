@@ -2,7 +2,7 @@
   {
     "id": "samsung-s26-ultra-512gbz",
     "name": "Samsung S26 Ultra 512GB 12GB RAM NUEVO SELLADO",
-    "price": 0,
+    "price": 31500,
     "status": "Disponible",
     "brand": "Samsung",
     "images": [
@@ -22,7 +22,7 @@
   {
     "id": "iphone-8-plusrs-256gb",
     "name": "iPhone 8 Plus 256GB 100% Batería Todas Las Redes",
-    "price": 0,
+    "price": 4000,
     "status": "Disponible",
     "brand": "Apple",
     "images": [
@@ -48,7 +48,7 @@
   {
     "id": "iphone-14-pro-max-256gb",
     "name": "iPhone 14 Pro Max 256GB 100% Batería Todas Las Redes",
-    "price": 0,
+    "price": 14000,
     "status": "Disponible",
     "brand": "Apple",
     "images": [
@@ -72,7 +72,7 @@
   {
     "id": "samsung-24-ultra-256gb",
     "name": "Samsung S24 Ultra 256GB 12 RAM Todas Las Redes",
-    "price": 0,
+    "price": 15500,
     "status": "Disponible",
     "brand": "Samsung",
     "images": [
@@ -97,7 +97,7 @@
   {
     "id": "samsung-24-ultra-512gb",
     "name": "Samsung S24 Ultra 512GB 12 RAM Todas Las Redes",
-    "price": 0,
+    "price": 17900,
     "status": "Disponible",
     "brand": "Samsung",
     "images": [
@@ -122,7 +122,7 @@
   {
     "id": "iphone-14-pro-128gb",
     "name": "iPhone 14 Pro 128GB 88% Batería",
-    "price": 0,
+    "price": 9000,
     "status": "Disponible",
     "brand": "Apple",
     "images": [
@@ -146,7 +146,7 @@
   {
     "id": "iphone-8-plus-negro-256gb",
     "name": "iPhone 8 Plus 256GB 100% Batería Todas Las Redes",
-    "price": 0,
+    "price": 4000,
     "status": "Disponible",
     "brand": "Apple",
     "images": [
@@ -175,7 +175,7 @@
   {
     "id": "iphone-8-plus-rojo-256gb",
     "name": "iPhone 8 Plus 256GB 100% Batería Todas Las Redes",
-    "price": 0,
+    "price": 4000,
     "status": "Disponible",
     "brand": "Apple",
     "images": [
@@ -201,7 +201,7 @@
   {
     "id": "iphone-8-plus-caja-256gb",
     "name": "iPhone 8 Plus De Caja 100% Bat 256GB",
-    "price": 0,
+    "price": 5000,
     "status": "Disponible",
     "brand": "Apple",
     "images": [
@@ -224,7 +224,7 @@
   {
     "id": "nokia-g11-plus-64gb",
     "name": "Nokia G11 Plus 64GB",
-    "price": 0,
+    "price": 1400,
     "status": "Disponible",
     "brand": "Nokia",
     "images": [
@@ -249,7 +249,7 @@
   {
     "id": "iphone-16-pro-max-256gb",
     "name": "iPhone 16 Pro Max 256GB 97% BAT Todas Las Redes",
-    "price": 0,
+    "price": 21000,
     "status": "Disponible",
     "brand": "Apple",
     "images": [
