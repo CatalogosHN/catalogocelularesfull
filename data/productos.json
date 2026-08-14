@@ -1,0 +1,277 @@
+[
+  {
+    "id": "samsung-s26-ultra-512gbz",
+    "name": "Samsung S26 Ultra 512GB 12GB RAM NUEVO SELLADO",
+    "price": 0,
+    "status": "Disponible",
+    "brand": "Samsung",
+    "images": [
+      "img/s26us3.jpg",
+      "img/s26us1.jpg",
+      "img/s26us2.jpg"
+    ],
+    "description": [
+      "512GB Almacenamiento",
+      "Desbloqueado para todas las redes",
+      "100% batería ✅",
+      "Audio y micrófono funcionando",
+      "NUEVO SELLADO ✅"
+    ],
+    "order": 1
+  },
+  {
+    "id": "iphone-8-plusrs-256gb",
+    "name": "iPhone 8 Plus 256GB 100% Batería Todas Las Redes",
+    "price": 0,
+    "status": "Disponible",
+    "brand": "Apple",
+    "images": [
+      "img/8pxx5.jpg",
+      "img/8pxx2.jpg",
+      "img/8pxx3.jpg",
+      "img/8pxx4.jpg",
+      "img/8pxx1.jpg",
+      "img/8pxx6.jpg"
+    ],
+    "description": [
+      "Modelo M ✅",
+      "256 GB Almacenamiento",
+      "Version Chip Desbloqueado para todas las redes",
+      "100% batería ✅",
+      "Audio y micrófono funcionando",
+      "Touch ID ✅",
+      "True Tone ✅",
+      "Camara ✅"
+    ],
+    "order": 2
+  },
+  {
+    "id": "iphone-14-pro-max-256gb",
+    "name": "iPhone 14 Pro Max 256GB 100% Batería Todas Las Redes",
+    "price": 0,
+    "status": "Disponible",
+    "brand": "Apple",
+    "images": [
+      "img/14pmr_1.jpg",
+      "img/14pmr_2.jpg",
+      "img/14pmr_3.jpg",
+      "img/14pmr_4.jpg",
+      "img/14pmr_5.jpg",
+      "img/14pmr_6.jpg"
+    ],
+    "description": [
+      "256 GB de almacenamiento",
+      "100% batería",
+      "Desbloqueado para todas las redes",
+      "Cámaras funcionando correctamente",
+      "Audio y micrófono funcionando",
+      "Equipo listo para usar"
+    ],
+    "order": 3
+  },
+  {
+    "id": "samsung-24-ultra-256gb",
+    "name": "Samsung S24 Ultra 256GB 12 RAM Todas Las Redes",
+    "price": 0,
+    "status": "Disponible",
+    "brand": "Samsung",
+    "images": [
+      "img/24u_1.jpg",
+      "img/24u_2.jpg",
+      "img/24u_3.jpg",
+      "img/24u_4.jpg",
+      "img/24u_5.jpg",
+      "img/24u_6.jpg",
+      "img/24u_7.jpg"
+    ],
+    "description": [
+      "256 GB de almacenamiento",
+      "100% batería",
+      "Desbloqueado para todas las redes",
+      "Cámaras funcionando correctamente",
+      "Audio y micrófono funcionando",
+      "Equipo listo para usar"
+    ],
+    "order": 4
+  },
+  {
+    "id": "samsung-24-ultra-512gb",
+    "name": "Samsung S24 Ultra 512GB 12 RAM Todas Las Redes",
+    "price": 0,
+    "status": "Disponible",
+    "brand": "Samsung",
+    "images": [
+      "img/24u5_1.jpg",
+      "img/24u5_2.jpg",
+      "img/24u5_3.jpg",
+      "img/24u5_4.jpg",
+      "img/24u5_5.jpg",
+      "img/24u5_6.jpg",
+      "img/24u5_7.jpg"
+    ],
+    "description": [
+      "512 GB de almacenamiento",
+      "100% batería",
+      "Desbloqueado para todas las redes",
+      "Cámaras funcionando correctamente",
+      "Audio y micrófono funcionando",
+      "Equipo listo para usar"
+    ],
+    "order": 5
+  },
+  {
+    "id": "iphone-14-pro-128gb",
+    "name": "iPhone 14 Pro 128GB 88% Batería",
+    "price": 0,
+    "status": "Disponible",
+    "brand": "Apple",
+    "images": [
+      "img/14pmblock_1.jpg",
+      "img/14pmblock_2.jpg",
+      "img/14pmblock_3.jpg",
+      "img/14pmblock_4.jpg",
+      "img/14pmblock_5.jpg",
+      "img/14pmblock_6.jpg"
+    ],
+    "description": [
+      "128 GB de almacenamiento",
+      "88% batería",
+      "ESIM BLOQUEADO DE RED",
+      "Pantalla en buen estado",
+      "Cámaras funcionando correctamente",
+      "Audio y micrófono funcionando"
+    ],
+    "order": 6
+  },
+  {
+    "id": "iphone-8-plus-negro-256gb",
+    "name": "iPhone 8 Plus 256GB 100% Batería Todas Las Redes",
+    "price": 0,
+    "status": "Disponible",
+    "brand": "Apple",
+    "images": [
+      "img/iphone8plus-negro-1.jpg",
+      "img/iphone8plus-negro-2.jpg",
+      "img/iphone8plus-negro-3.jpg",
+      "img/iphone8plus-negro-4.jpg",
+      "img/iphone8plus-negro-5.jpg",
+      "img/iphone8plus-negro-6.jpg"
+    ],
+    "description": [
+      "Modelo M",
+      "256 GB",
+      "100% batería",
+      "Vidrio de Pantalla",
+      "Cobertor Original de Segunda Mano",
+      "Negro color",
+      "Chip Desbloqueado para cualquier red y funciona en cualquier País",
+      "True Tone",
+      "Huella",
+      "Cámara",
+      "Audio y Micrófono"
+    ],
+    "order": 7
+  },
+  {
+    "id": "iphone-8-plus-rojo-256gb",
+    "name": "iPhone 8 Plus 256GB 100% Batería Todas Las Redes",
+    "price": 0,
+    "status": "Disponible",
+    "brand": "Apple",
+    "images": [
+      "img/iphone8plus-rojo-1.jpg",
+      "img/iphone8plus-rojo-2.jpg",
+      "img/iphone8plus-rojo-3.jpg",
+      "img/iphone8plus-rojo-4.jpg",
+      "img/iphone8plus-rojo-5.jpg",
+      "img/iphone8plus-rojo-6.jpg",
+      "img/iphone8plus-rojo-7.jpg"
+    ],
+    "description": [
+      "256 GB de almacenamiento",
+      "100% batería",
+      "Desbloqueado para todas las redes",
+      "Pantalla funcionando correctamente",
+      "Cámara funcionando",
+      "Huella funcionando",
+      "Audio y micrófono funcionando"
+    ],
+    "order": 8
+  },
+  {
+    "id": "iphone-8-plus-caja-256gb",
+    "name": "iPhone 8 Plus De Caja 100% Bat 256GB",
+    "price": 0,
+    "status": "Disponible",
+    "brand": "Apple",
+    "images": [
+      "img/iphone8plus-caja-1.jpg",
+      "img/iphone8plus-caja-2.jpg",
+      "img/iphone8plus-caja-3.jpg"
+    ],
+    "description": [
+      "256 GB de almacenamiento",
+      "100% batería",
+      "Incluye caja",
+      "Equipo desbloqueado",
+      "Pantalla funcionando correctamente",
+      "Cámara funcionando",
+      "Huella funcionando",
+      "Audio y micrófono funcionando"
+    ],
+    "order": 9
+  },
+  {
+    "id": "nokia-g11-plus-64gb",
+    "name": "Nokia G11 Plus 64GB",
+    "price": 0,
+    "status": "Disponible",
+    "brand": "Nokia",
+    "images": [
+      "img/nokiag11_1.jpg",
+      "img/nokiag11_2.jpg",
+      "img/nokiag11_3.jpg",
+      "img/nokiag11_4.jpg",
+      "img/nokiag11_5.jpg",
+      "img/nokiag11_6.jpg",
+      "img/nokiag11_7.jpg"
+    ],
+    "description": [
+      "64 GB de almacenamiento",
+      "Buen estado general",
+      "Pantalla funcionando",
+      "Cámara funcionando",
+      "Audio y micrófono funcionando",
+      "Listo para usar"
+    ],
+    "order": 10
+  },
+  {
+    "id": "iphone-16-pro-max-256gb",
+    "name": "iPhone 16 Pro Max 256GB 97% BAT Todas Las Redes",
+    "price": 0,
+    "status": "Disponible",
+    "brand": "Apple",
+    "images": [
+      "img/iphone16promax-1.png",
+      "img/iphone16promax-2.png",
+      "img/iphone16promax-3.png",
+      "img/iphone16promax-4.png",
+      "img/iphone16promax-5.png",
+      "img/iphone16promax-6.png",
+      "img/iphone16promax-7.png",
+      "img/iphone16promax-8.png",
+      "img/iphone16promax-9.png"
+    ],
+    "description": [
+      "256 GB almacenamiento",
+      "97% batería",
+      "Desbloqueado para todas las redes",
+      "Pantalla en buen estado",
+      "Cámaras funcionando correctamente",
+      "Audio y micrófono funcionando",
+      "Equipo listo para usar"
+    ],
+    "order": 11
+  }
+]
